@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaurav & Siddhi - Wedding Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles and font */
+        body {
+            background: radial-gradient(circle at center, #5c0f1c 0%, #290209 100%);
+            margin: 0;
+            overflow-x: hidden;
+            color: #3e2723;
+            font-family: 'Mukta', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-yatra { font-family: 'Yatra One', system-ui; }
+        .font-mukta { font-family: 'Mukta', sans-serif; }
+
+        /* Toran (Flower Garland) */
+        .toran-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 40;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+            animation: swayToran 4s ease-in-out infinite alternate;
+            transform-origin: top;
+        }
+        @keyframes swayToran {
+            0% { transform: rotateX(0deg) translateY(0px); }
+            100% { transform: rotateX(15deg) translateY(-2px); }
+        }
+
+        /* Fireflies / Golden Dust Animation */
+        .bg-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        .firefly {
+            position: absolute;
+            background: #ffdf73;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 3px rgba(212, 175, 55, 0.6);
+            opacity: 0;
+            animation: driftUp linear infinite;
+        }
+        @keyframes driftUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            background: linear-gradient(to bottom, #ffdf73, #d4af37, #b38728);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.4);
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #4a0e17;
+            cursor: pointer;
+            border: 2px solid #fff2cd;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Mukta', sans-serif;
+        }
+        .lang-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.8);
+        }
+
+        /* Scroll Layout */
+        .scroll-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 60px 0;
+        }
+
+        /* The Roller Cylinders (Shahi Golden) */
+        .roller {
+            width: 94%;
+            max-width: 640px;
+            height: 44px;
+            /* Golden gradient texture */
+            background: 
+                linear-gradient(to bottom, #f9d976 0%, #e9b646 25%, #a67c00 50%, #e9b646 75%, #f9d976 100%);
+            border-radius: 22px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8), inset 0 3px 6px rgba(255,255,255,0.6), inset 0 -3px 6px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 20;
+            border: 1px solid #7a5200;
+        }
+        /* Golden End Caps */
+        .roller::before, .roller::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 30px;
+            height: 58px;
+            background: linear-gradient(to right, #b8860b 0%, #ffd700 30%, #fff8dc 50%, #ffd700 70%, #b8860b 100%);
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.7), inset 0 0 8px rgba(139,69,19,0.8);
+            border: 2px solid #8b4513;
+        }
+        .roller::before { left: -15px; }
+        .roller::after { right: -15px; }
+
+        /* The Parchment Paper */
+        .scroll-paper {
+            width: 86%;
+            max-width: 580px;
+            height: 0px; /* Starts closed */
+            background-color: #fffaf0; /* Brighter Parchment */
+            background-image: 
+                linear-gradient(to right, rgba(218, 165, 32, 0.25) 0%, transparent 6%, transparent 94%, rgba(218, 165, 32, 0.25) 100%),
+                radial-gradient(circle, #ffffff 40%, #ffefcc 100%);
+            box-shadow: inset 0 0 60px rgba(184, 134, 11, 0.25), 0 15px 40px rgba(0,0,0,0.7);
+            border-left: 5px solid #d4af37;
+            border-right: 5px solid #d4af37;
+            overflow: hidden;
+            /* Exactly 3 seconds transition for height */
+            transition: height 3s ease-in-out; 
+            position: relative;
+            z-index: 15;
+        }
+
+        /* Content Container */
+        .scroll-content {
+            padding: 40px 20px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            transition-delay: 2s; /* Wait for scroll to mostly open before fading in */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        /* Typography matching for both languages */
+        .scroll-content h1 { font-family: 'Yatra One', system-ui; font-size: 2.6rem; color: #990000; margin: 10px 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+        .scroll-content h2 { font-family: 'Yatra One', system-ui; font-size: 1.4rem; color: #990000; margin: 8px 0; line-height: 1.4; }
+        .scroll-content h3 { font-family: 'Yatra One', system-ui; font-size: 1.2rem; color: #8b4513; margin: 16px 0 4px 0; border-bottom: 1px solid #d4af37; display: inline-block; padding-bottom: 2px;}
+        .scroll-content p { font-family: 'Mukta', sans-serif; font-size: 1.05rem; font-weight: 700; color: #3e2723; margin: 6px 0; line-height: 1.5; }
+        .scroll-content strong { color: #7a0000; font-weight: 800; font-size: 1.15rem; }
+
+        /* Language Swap Fade */
+        .lang-section {
+            opacity: 0;
+            display: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .lang-section.active {
+            opacity: 1;
+            display: block;
+        }
+
+        /* Traditional Motifs and Borders */
+        .ornate-border {
+            border-top: 3px solid #b8860b;
+            border-bottom: 3px solid #b8860b;
+            padding: 20px 0;
+            margin: 30px 0;
+            position: relative;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+        }
+        .ornate-border::before, .ornate-border::after {
+            content: '❁';
+            position: absolute;
+            color: #d4af37;
+            font-size: 26px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .ornate-border::before { left: 10px; }
+        .ornate-border::after { right: 10px; }
+
+        .kalash-icon {
+            font-size: 55px;
+            color: #990000;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #ffd700, -1px -1px 0px #ffd700;
+            line-height: 1;
+        }
+
+        /* Pull Indicator Tassel */
+        .tassel-container {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -5px; /* Hang slightly under bottom roller */
+            z-index: 30;
+            transition: transform 0.3s;
+            padding-bottom: 20px;
+        }
+        .tassel-container:hover {
+            transform: translateY(5px);
+        }
+        .tassel-thread {
+            width: 6px;
+            height: 40px;
+            background: linear-gradient(to right, #aa771c, #ffdf73, #aa771c);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+        }
+        .tassel-knot {
+            width: 22px;
+            height: 22px;
+            background: radial-gradient(circle at 30% 30%, #cc0000, #4a0e17);
+            border-radius: 50%;
+            border: 2px solid #ffdf73;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        .tassel-fringe {
+            width: 26px;
+            height: 45px;
+            background: repeating-linear-gradient(
+                90deg,
+                #b38728,
+                #b38728 2px,
+                #800000 2px,
+                #800000 4px
+            );
+            border-radius: 0 0 12px 12px;
+            margin-top: -8px;
+            box-shadow: 0 5px 8px rgba(0,0,0,0.4);
+        }
+        
+        .pull-text {
+            color: #fff2cd;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 15px;
+            text-shadow: 2px 2px 4px #000;
+            animation: bounce 2s infinite;
+            background: rgba(74, 14, 23, 0.85);
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            font-family: 'Mukta', sans-serif;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        .highlight-text {
+            color: #990000; /* Richer deeper red */
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body id="body-container">
+
+    <!-- Background Music Element (Traditional Shehnai/Flute style track) -->
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg"> 
+    </audio>
+
+    <!-- Toran (Marigold Garland) -->
+    <div class="toran-container">
+        <svg width="100%" height="70" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="toranPattern" x="0" y="0" width="120" height="70" patternUnits="userSpaceOnUse">
+                    <!-- String -->
+                    <path d="M0,10 Q60,35 120,10" fill="none" stroke="#d4af37" stroke-width="2"/>
+                    <!-- Marigolds (Zhendu) -->
+                    <circle cx="20" cy="18" r="12" fill="#ff9900"/>
+                    <circle cx="20" cy="18" r="8" fill="#ffcc00"/>
+                    <circle cx="60" cy="23" r="14" fill="#e65c00"/>
+                    <circle cx="60" cy="23" r="9" fill="#ff9900"/>
+                    <circle cx="100" cy="18" r="12" fill="#ff9900"/>
+                    <circle cx="100" cy="18" r="8" fill="#ffcc00"/>
+                    <!-- Mango Leaves -->
+                    <path d="M40,20 Q35,50 40,65 Q45,50 40,20" fill="#2e7d32"/>
+                    <path d="M80,20 Q75,50 80,65 Q85,50 80,20" fill="#2e7d32"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="70" fill="url(#toranPattern)" />
+        </svg>
+    </div>
+
+    <!-- Language Toggle Button -->
+    <button class="lang-toggle" onclick="toggleLanguage()" id="lang-btn">
+        English
+    </button>
+
+    <!-- Background Particles Generator (JS populated) -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Main Scroll UI -->
+    <div class="scroll-wrapper">
+        <!-- Top Roller -->
+        <div class="roller"></div>
+
+        <!-- Scroll Paper -->
+        <div class="scroll-paper" id="scroll-paper">
+            <div class="scroll-content" id="scroll-content">
+                
+                <!-- Marathi Content -->
+                <div id="content-mr" class="lang-section active">
+                    <h2>।। श्री काळभैरव प्रसन्न ।।<br>।। श्री गजानन प्रसन्न ।।<br>।। श्री कुलस्वामिनी प्रसन्न ।।</h2>
+                    <h1>शुभविवाह</h1>
+                    <p>सप्रेम नमस्कार वि. वि.,<br>आमचे येथे श्रीकृपेकरुन कै. भागाबाई श्रीपत पालांडे यांचा नातू</p>
+                    <h2>चि. गौरव</h2>
+                    <p>(सौ. अपर्णा व श्री. अनंत श्रीपत पालांडे मु. तेटघर, ता. महाड, जि. रायगड यांचा सुपूत्र)</p>
+                    <p>आणि</p>
+                    <h2>चि. सौ. कां. सिद्धी</h2>
+                    <p>(सौ. पुजा व श्री. प्रताप सखाराम घोसाळकर मु. मांगरुळ, ता. माणगाव, जि. रायगड यांची कन्या)</p>
+                    <p>यांचा <strong>॥ शुभ विवाह ॥</strong><br>मिती मार्गशीर्ष, कृष्ण चतुर्थी, शके १९४८ रविवार दि. २७-१२-२०२६ रोजी दुपारी १२वा. २०मि. या शुभमुहुर्तावर करण्याचे योजिले आहे.</p>
+                    <h3>卐 विवाह स्थळ 卐</h3>
+                    <p>शिव बॅनक्वेट हॉल, शिव विष्णू मंदिर, प्लॉट नं. ८/९, सेक्टर ९ ए, वाशी बस डेपोच्या मागे, वाशी, नवी मुंबई - ४००७०३</p>
+                    <p><strong>भोजन समारंभ:</strong> दुपारी १.०० ते ३.०० वाजेपर्यंत<br><strong>स्वागत समारंभ:</strong> दुपारी २.०० ते ४.०० वाजेपर्यंत<br>सर्व मंगल विधी हॉलवर होतील.</p>
+                    <h3>निमंत्रक</h3>
+                    <p>कु. तनुष साहिल कुमार, कु. हितांश हार्दीक जोशी</p>
+                    <h3>आपले स्नेहांकित</h3>
+                    <p>श्री. अनंत श्रीपत पालांडे व सौ. अपर्णा अनंत पालांडे<br>श्री. साहिल सुनिल कुमार व सौ. दिपाली साहिल कुमार<br>श्री. हार्दिक हर्षद जोशी व सौ. भाग्यश्री हार्दिक जोशी</p>
+                    <p>समस्त पालांडे, मोरे, कुमार, जोशी, सावंत, कळमकर, सुर्वे, सालेकर, दळवी परिवार आणि आप्तेष्ट</p>
+                </div>
+
+                <!-- English Content -->
+                <div id="content-en" class="lang-section">
+                    <h2>|| Shri Kalbhairav Prasanna ||<br>|| Shri Gajanan Prasanna ||<br>|| Shri Kulaswamini Prasanna ||</h2>
+                    <h1>Shubh Vivah</h1>
+                    <p>With best compliments,<br>By the grace of God, Grandson of Late Bhagabai Shripat Palande,</p>
+                    <h2>Chi. Gaurav</h2>
+                    <p>(Son of Mrs. Aparna & Mr. Anant Shripat Palande, Tetghar, Mahad, Raigad)</p>
+                    <p>and</p>
+                    <h2>Chi. Sau. Ka. Siddhi</h2>
+                    <p>(Daughter of Mrs. Pooja & Mr. Pratap Sakharam Ghosalkar, Mangrul, Mangaon, Raigad)</p>
+                    <p><strong>|| Wedding Ceremony ||</strong><br>is scheduled on Sunday, 27-12-2026 at 12:20 PM.</p>
+                    <h3>卐 Wedding Venue 卐</h3>
+                    <p>Shiv Banquet Hall, Shiv Vishnu Temple, Plot No. 8/9, Sector 9A, Behind Vashi Bus Depot, Vashi, Navi Mumbai - 400703</p>
+                    <p><strong>Lunch:</strong> 1:00 PM to 3:00 PM<br><strong>Reception:</strong> 2:00 PM to 4:00 PM<br>All auspicious rituals will be held at the hall.</p>
+                    <h3>Invitees</h3>
+                    <p>Ku. Tanush Sahil Kumar, Ku. Hitansh Hardik Joshi</p>
+                    <h3>Best Compliments</h3>
+                    <p>Mr. Anant Shripat Palande & Mrs. Aparna Anant Palande<br>Mr. Sahil Sunil Kumar & Mrs. Deepali Sahil Kumar<br>Mr. Hardik Harshad Joshi & Mrs. Bhagyashree Hardik Joshi</p>
+                    <p>All Palande, More, Kumar, Joshi, Sawant, Kalamkar, Surve, Salekar, Dalvi families and relatives.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Roller -->
+        <div class="roller"></div>
+        
+        <!-- Interactive Pull Element -->
+        <div class="tassel-container" onclick="toggleScroll()" id="tassel-area">
+            <div class="tassel-thread"></div>
+            <div class="tassel-knot"></div>
+            <div class="tassel-fringe"></div>
+            <div class="pull-text" id="pull-text">खाली ओढा &darr;</div>
+        </div>
+    </div>
+
+    <script>
+        // --- Golden Fireflies / Dust Logic ---
+        const particleContainer = document.getElementById('particles');
+        const particleCount = 40;
+
+        for (let i = 0; i < particleCount; i++) {
+            let firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            
+            // Random size for fireflies (3px to 8px)
+            let size = Math.random() * 5 + 3;
+            firefly.style.width = size + 'px';
+            firefly.style.height = size + 'px';
+            
+            // Random horizontal position
+            firefly.style.left = Math.random() * 100 + 'vw';
+            
+            // Random duration and delay for organic feel
+            let duration = Math.random() * 8 + 6; // 6s to 14s
+            firefly.style.animationDuration = `${duration}s`;
+            
+            let delay = Math.random() * 10;
+            firefly.style.animationDelay = `${delay}s`;
+            
+            particleContainer.appendChild(firefly);
+        }
+
+        // --- Interactivity Logic ---
+        let isScrollOpen = false;
+        let isEnglish = false;
+
+        const scrollPaper = document.getElementById('scroll-paper');
+        const scrollContent = document.getElementById('scroll-content');
+        const pullText = document.getElementById('pull-text');
+        const bgMusic = document.getElementById('bg-music');
+        const bodyContainer = document.getElementById('body-container');
+        
+        const contentMr = document.getElementById('content-mr');
+        const contentEn = document.getElementById('content-en');
+        const langBtn = document.getElementById('lang-btn');
+
+        // Texts for Pull Handle
+        const txtPullMr = "खाली ओढा &darr;";
+        const txtCloseMr = "वर ढकला &uarr;";
+        const txtPullEn = "Pull Down &darr;";
+        const txtCloseEn = "Push Up &uarr;";
+
+        function updatePullText() {
+            if (isEnglish) {
+                pullText.innerHTML = isScrollOpen ? txtCloseEn : txtPullEn;
+            } else {
+                pullText.innerHTML = isScrollOpen ? txtCloseMr : txtPullMr;
+            }
+        }
+
+        function toggleScroll() {
+            isScrollOpen = !isScrollOpen;
+            
+            if (isScrollOpen) {
+                // Open scroll
+                scrollContent.style.display = 'block'; 
+                const targetHeight = scrollContent.scrollHeight;
+                scrollPaper.style.height = targetHeight + 'px';
+                
+                // Fade text in
+                scrollContent.style.opacity = '1';
+                
+                // Play audio
+                bgMusic.play().catch(error => {
+                    console.log("Audio autoplay prevented by browser. Interaction required.", error);
+                });
+            } else {
+                // Close scroll
+                scrollPaper.style.height = '0px';
+                scrollContent.style.opacity = '0';
+                
+                // Pause audio
+                bgMusic.pause();
+            }
+            updatePullText();
+        }
+
+        function adjustHeight() {
+            if (isScrollOpen) {
+                scrollPaper.style.height = scrollContent.scrollHeight + 'px';
+            }
+        }
+
+        function toggleLanguage() {
+            isEnglish = !isEnglish;
+            
+            if (isEnglish) {
+                contentMr.style.opacity = '0';
+                setTimeout(() => {
+                    contentMr.classList.remove('active');
+                    contentEn.classList.add('active');
+                    // Slight delay to ensure display:block applies before fading in
+                    setTimeout(() => {
+                        contentEn.style.opacity = '1';
+                        adjustHeight();
+                    }, 50);
+                }, 400); // Wait for fade out
+                langBtn.innerText = "मराठी";
+            } else {
+                contentEn.style.opacity = '0';
+                setTimeout(() => {
+                    contentEn.classList.remove('active');
+                    contentMr.classList.add('active');
+                    setTimeout(() => {
+                        contentMr.style.opacity = '1';
+                        adjustHeight();
+                    }, 50);
+                }, 400);
+                langBtn.innerText = "English";
+            }
+
+            updatePullText();
+        }
+
+        // Responsive handling: adjust height if window is resized while scroll is open
+        window.addEventListener('resize', adjustHeight);
+    </script>
+</body>
+</html>
